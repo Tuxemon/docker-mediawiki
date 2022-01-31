@@ -11,6 +11,11 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	exit;
 }
 
+# Allow uploads via URL
+$wgAllowCopyUploads = true;
+$wgEnableAPI = true;
+$wgEnableWriteAPI = true;
+
 $wgReadOnly = getenv('MW_WG_READONLY') ?: false;
 ini_set('display_errors', false);
 
@@ -61,8 +66,8 @@ $wgEmailAuthentication = true;
 
 ## Database settings
 $wgDBtype = "mysql";
-$wgDBserver = "mysql";
-$wgDBname = "mediawiki";
+$wgDBserver = getenv('MW_WG_DBSERVER') ?: "mysql";
+$wgDBname = getenv('MW_WG_DBNAME') ?: "mediawiki";
 $wgDBuser = getenv('MW_WG_DBUSER');
 $wgDBpassword = getenv('MW_WG_DBPASS');
 
@@ -87,6 +92,9 @@ $wgImageMagickConvertCommand = "/usr/bin/convert";
 
 # InstantCommons allows wiki to use images from http://commons.wikimedia.org
 $wgUseInstantCommons = false;
+
+# Allow external images
+$wgAllowExternalImages = true;
 
 ## If you use ImageMagick (or any other shell command) on a
 ## Linux server, this will need to be set to the name of an
@@ -128,12 +136,21 @@ if (getenv('MW_REFERRER_POLICY')) {
 ## appropriate copyright notice / icon. GNU Free Documentation
 ## License and Creative Commons licenses are supported so far.
 $wgRightsPage = ""; # Set to the title of a wiki page that describes your license/copyright
-$wgRightsUrl = "";
-$wgRightsText = "";
-$wgRightsIcon = "";
+$wgRightsUrl = "https://creativecommons.org/licenses/by-sa/3.0/";
+$wgRightsText = "Creative Commons Attribution-ShareAlike";
+$wgRightsIcon = "$wgResourceBasePath/resources/assets/licenses/cc-by-sa.png";
 
 # Path to the GNU diff3 utility. Used for conflict resolution.
 $wgDiff3 = "/usr/bin/diff3";
+
+# Allow additional extensions to be uploaded
+$wgFileExtensions[] = 'mp3';
+$wgFileExtensions[] = 'wav';
+$wgFileExtensions[] = 'pdf';
+$wgFileExtensions[] = 'ogg';
+$wgFileExtensions[] = 'tmx';
+$wgFileExtensions[] = 'ase';
+$wgFileExtensions[] = 'svg';
 
 ## Default skin: you can change the default skin. Use the internal symbolic
 ## names, ie 'vector', 'monobook':
@@ -256,16 +273,16 @@ if (getenv('MW_WG_RAWHTML') === 'true') {
 $wgGroupPermissions['*']['read'] = getenv("MW_PERMISSIONS_READ") ?: true;
 $wgGroupPermissions['user']['read'] = getenv("MW_PERMISSIONS_USER_READ") ?: true;
 
-$wgGroupPermissions['*']['edit'] = getenv("MW_PERMISSIONS_EDIT") ?: true;
+$wgGroupPermissions['*']['edit'] = getenv("MW_PERMISSIONS_EDIT") ?: false;
 $wgGroupPermissions['user']['edit'] = getenv("MW_PERMISSIONS_USER_EDIT") ?: true;
 
-$wgGroupPermissions['*']['createpage'] = getenv("MW_PERMISSIONS_CREATEPAGE") ?: true;
+$wgGroupPermissions['*']['createpage'] = getenv("MW_PERMISSIONS_CREATEPAGE") ?: false;
 $wgGroupPermissions['user']['createpage'] = getenv("MW_PERMISSIONS_USER_CREATEPAGE") ?: true;
 
 $wgGroupPermissions['*']['editmyprivateinfo'] = getenv("MW_PERMISSIONS_EDITMYPRIVATEINFO") ?: true;
 
 # Rights for auth config
-$wgGroupPermissions['*']['createaccount'] = getenv('MW_AUTH_CREATEACCOUNT') ?: true;
+$wgGroupPermissions['*']['createaccount'] = false;
 $wgGroupPermissions['*']['autocreateaccount'] = getenv('MW_AUTH_AUTOCREATEUSER') ?: false;
 
 # Auth_remoteuser Extension
@@ -303,3 +320,8 @@ if (getenv('MW_AUTH_OIDC')) {
 if (getenv('MW_FILE_EXTENSION_ALLOW_SVG')) {
     $wgFileExtensions[] = 'svg';
 }
+
+# Spam
+wfLoadExtension( 'StopForumSpam' );
+wfLoadExtension( 'ConfirmEdit' );
+wfLoadExtension( 'SmiteSpam' );

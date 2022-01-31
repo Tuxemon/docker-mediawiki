@@ -25,9 +25,9 @@ COPY --from=composer:2.1 /usr/bin/composer /usr/bin/composer
 
 # Install composer based extensions
 RUN cd /var/www/html/ \
- && composer require mediawiki/semantic-media-wiki "~3.0" --update-no-dev \
- && composer require mediawiki/semantic-result-formats "~3.0" --update-no-dev \
- && composer require mediawiki/semantic-compound-queries "~2.1" --update-no-dev \
+ && composer require mediawiki/semantic-media-wiki "~4.0" --update-no-dev \
+ && composer require mediawiki/semantic-result-formats "~4.0" --update-no-dev --with-all-dependencies \
+ && composer require mediawiki/semantic-compound-queries "~2.2" --update-no-dev \
  && composer require jumbojett/openid-connect-php "0.5.0" --update-no-dev
 
 # Install extensions with a git based install
@@ -62,6 +62,10 @@ RUN git clone --depth=1 -b $MEDIAWIKI_EXT_BRANCH https://gerrit.wikimedia.org/r/
 
 RUN git clone --depth=1 -b $MEDIAWIKI_EXT_BRANCH https://gerrit.wikimedia.org/r/mediawiki/extensions/DrawioEditor.git /var/www/html/extensions/DrawioEditor
 
+RUN git clone --depth=1 -b $MEDIAWIKI_EXT_BRANCH https://gerrit.wikimedia.org/r/mediawiki/extensions/StopForumSpam.git /var/www/html/extensions/StopForumSpam
+
+RUN git clone --depth=1 -b $MEDIAWIKI_EXT_BRANCH https://gerrit.wikimedia.org/r/mediawiki/extensions/SmiteSpam.git /var/www/html/extensions/SmiteSpam
+
 FROM mediawiki:1.36
 
 LABEL vendor='Radio Bern RaBe' \
@@ -88,5 +92,7 @@ COPY apache.conf /etc/apache2/conf-enabled/99-wiki.conf
 COPY LocalSettings.php /var/www/html/LocalSettings.php 
 
 COPY wiki-cmd.sh /usr/local/bin/wiki-cmd
+
+COPY wiki.png /var/www/html/resources/assets/wiki.png
 
 CMD ["wiki-cmd"]
