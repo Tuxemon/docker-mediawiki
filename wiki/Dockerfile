@@ -25,9 +25,16 @@ COPY --from=composer:2.1 /usr/bin/composer /usr/bin/composer
 
 # Install composer based extensions
 RUN cd /var/www/html/ \
- && composer require mediawiki/semantic-media-wiki "~4.0" --update-no-dev \
- && composer require mediawiki/semantic-result-formats "~4.0" --update-no-dev --with-all-dependencies \
- && composer require mediawiki/semantic-compound-queries "~2.2" --update-no-dev \
+ && composer require mediawiki/semantic-media-wiki "~3.2.0" --update-no-dev \
+ && composer require mediawiki/semantic-result-formats "~3.0" --update-no-dev \
+ && composer require mediawiki/semantic-compound-queries "~2.1" --update-no-dev \
+ && composer require mediawiki/maps "^7.20.1" --update-no-dev \
+ && composer require professional-wiki/modern-timeline "~1.0" --update-no-dev \
+ && composer require mediawiki/mermaid "^2.1.1" --update-no-dev \
+ && composer require mediawiki/semantic-extra-special-properties "~2.0" --update-no-dev \
+ && composer require mediawiki/semantic-cite "~2.1" --update-no-dev \
+ && composer require mediawiki/semantic-meta-tags "~3.0" --update-no-dev \
+ && composer require mediawiki/semantic-breadcrumb-links "~2.0" --update-no-dev \
  && composer require jumbojett/openid-connect-php "0.5.0" --update-no-dev
 
 # Install extensions with a git based install
