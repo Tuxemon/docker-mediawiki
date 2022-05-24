@@ -224,9 +224,9 @@ if (getenv('MW_EXTERNALDATA_DIRECTORY_PATH')) {
 # Semantic Stuff
 wfLoadExtension( 'SemanticMediaWiki' );
 enableSemantics( 'wiki.tuxemon.org' );
+wfLoadExtension( 'SemanticCompoundQueries' );
+#wfLoadExtension( 'SemanticDrilldown' );
 #require_once "$IP/extensions/SemanticInternalObjects/SemanticInternalObjects.php";
-#require_once "$IP/extensions/SemanticCompoundQueries/SemanticCompoundQueries.php";
-#require_once "$IP/extensions/SemanticDrilldown/SemanticDrilldown.php";
 wfLoadExtension( 'PageForms' );
 
 # HierarchyBuilder Extension
