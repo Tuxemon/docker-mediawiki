@@ -99,4 +99,6 @@ COPY wiki-cmd.sh /usr/local/bin/wiki-cmd
 
 COPY wiki.png /var/www/html/resources/assets/wiki.png
 
+RUN chown -R www-data: /var/www/html/* 
+
 CMD ["wiki-cmd"]
