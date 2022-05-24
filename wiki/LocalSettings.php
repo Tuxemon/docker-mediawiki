@@ -222,12 +222,11 @@ if (getenv('MW_EXTERNALDATA_DIRECTORY_PATH')) {
 }
 	
 # Semantic Stuff
-require_once "$IP/extensions/SemanticMediaWiki/SemanticMediaWiki.php";
-enableSemantics();
-require_once "$IP/extensions/SemanticInternalObjects/SemanticInternalObjects.php";
-require_once "$IP/extensions/SemanticInternalObjects/SemanticInternalObjects.php";
-require_once "$IP/extensions/SemanticCompoundQueries/SemanticCompoundQueries.php";
-require_once "$IP/extensions/SemanticDrilldown/SemanticDrilldown.php";
+wfLoadExtension( 'SemanticMediaWiki' );
+enableSemantics( 'wiki.tuxemon.org' );
+#require_once "$IP/extensions/SemanticInternalObjects/SemanticInternalObjects.php";
+#require_once "$IP/extensions/SemanticCompoundQueries/SemanticCompoundQueries.php";
+#require_once "$IP/extensions/SemanticDrilldown/SemanticDrilldown.php";
 wfLoadExtension( 'PageForms' );
 
 # HierarchyBuilder Extension
