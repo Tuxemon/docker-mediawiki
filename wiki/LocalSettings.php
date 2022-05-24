@@ -16,6 +16,7 @@ $wgAllowCopyUploads = true;
 $wgEnableAPI = true;
 $wgEnableWriteAPI = true;
 
+ini_set('memory_limit', '512M');
 $wgReadOnly = getenv('MW_WG_READONLY') ?: false;
 ini_set('display_errors', false);
 
@@ -240,20 +241,6 @@ wfLoadExtension( 'ApprovedRevs' );
 # NativeSvgHandler needs opt-in due to xss concerns
 if (getenv('MW_NATIVESVGHANDLER')) {
     wfLoadExtension( 'NativeSvgHandler' );
-}
-
-# draw.io, needs opt-in because you need to trust diagrams.net
-if (getenv('MW_DRAWIOEDITOR')) {
-    wfLoadExtension( 'DrawioEditor' );
-}
-if (getenv('MW_DRAWIOEDITOR_IMAGE_TYPE')) {
-    $wgDrawioEditorImageType = getenv('MW_DRAWIOEDITOR_IMAGE_TYPE');
-}
-if (getenv('MW_DRAWIOEDITOR_IMAGE_INTERACTIVE')) {
-    $wgDrawioEditorImageInteractive = true;
-}
-if (getenv('MW_DRAWIOEDITOR_BACKEND_URL')) {
-    $wgDrawioEditorBackendUrl = getenv('MW_DRAWIOEDITOR_BACKEND_URL');
 }
 
 # for easing migrations
